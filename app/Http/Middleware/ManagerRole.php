@@ -20,4 +20,5 @@ class ManagerRole
             return redirect('/');
 
         return $next($request);
-    }0
+    }
+}
