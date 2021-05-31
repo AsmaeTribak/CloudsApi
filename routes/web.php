@@ -13,6 +13,7 @@
 
 
 Route::get( '/users' , 'UserController@index' );//->middleware('managerRole');
+Route::get( '/users/reset/password/{userid}' , 'UserController@reseUsertPassword' );//->middleware('managerRole');
 Route::get( '/test' , 'TestEmail@index' );//->middleware('managerRole');
 
 
@@ -24,6 +25,7 @@ Auth::routes();
 
 
 Route::get('/', 'HomeController@index')->name('home');
+
 
 
 
