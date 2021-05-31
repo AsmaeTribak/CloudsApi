@@ -13,6 +13,8 @@
 
 
 Route::get( '/users' , 'UserController@index' );//->middleware('managerRole');
+Route::get( '/test' , 'TestEmail@index' );//->middleware('managerRole');
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -22,3 +24,6 @@ Auth::routes();
 
 
 Route::get('/', 'HomeController@index')->name('home');
+
+
+
