@@ -1,21 +1,3 @@
-@if (Session::has('success'))
-    <script type="text/javascript">
-        swal({
-            title: 'Success!',
-            text: "{{ Session::get('success') }}",
-            timer: 5000,
-            type: 'success'
-        }).then((value) => {
-            //location.reload();
-        }).catch(swal.noop);
-
-    </script>
-@endif
-
-
-
-
-
 @extends('layouts.main')
 
 
@@ -35,7 +17,7 @@
                 </div>
             @endif
 
-            
+
             @if (Session::has('success'))
                 <div class="alert alert-success">
                     {{ Session::get('success') }}
@@ -68,7 +50,8 @@
                             <td>
 
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" @if ($user->email_verified_at != null) checked @endif disabled>
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" @if ($user->is_active) checked @endif
+                                        disabled>
                                 </div>
 
                             </td>
@@ -77,7 +60,12 @@
                                     @if (Auth::user()->role == 'admin')
                                         <button class="btn btn-primary btn-sm">Update Role</button>
                                     @endif
-                                    <button class="btn btn-primary btn-sm">desactive User</button>
+                                    @if (!in_array($user->role, ['leader', 'admin']))
+
+                                        <a href="{{ url('/users/desactivate/' . $user->id_user) }}"
+                                            class="btn btn-primary btn-sm">desactive User</a>
+                                    @endif
+
                                     <a href="{{ url('/users/reset/password/' . $user->id_user) }}"
                                         class="btn btn-primary btn-sm">Reset password</a>
 
