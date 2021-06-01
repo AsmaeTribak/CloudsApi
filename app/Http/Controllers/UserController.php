@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
-    
+
     use SendsPasswordResetEmails;
 
 
@@ -18,69 +18,85 @@ class UserController extends Controller
         $this->middleware("managerRole");
     }
 
-    public function index(){
+    public function index()
+    {
 
         $usersOfCurrentEntity = \Auth::user()->entity->users;
 
-        return view('users.users' , [ 'usersOfCurrentEntity' => $usersOfCurrentEntity ] );
+        return view('users.users', ['usersOfCurrentEntity' => $usersOfCurrentEntity]);
     }
-    public function resetUserPassword(  $userid ){
+    public function resetUserPassword($userid)
+    {
 
         $user = User::find($userid);
-        
 
-        if(  $user == null )
-        return redirect()->back()->withFail('User not found');
-        
+
+        if ($user == null)
+            return redirect()->back()->withFail('User not found');
+
 
         $response = $this->broker()->sendResetLink(
-            [ "email" => $user->email ]  );
+            ["email" => $user->email]
+        );
 
-        return redirect()->back()->with('success',"well done");
-        ;
-
+        return redirect()->back()->with('success', "well done");;
     }
-    public function desactivate ( $userid ){
+    public function desactivate($userid)
+    {
 
-        $user=User::find($userid);
+        $user = User::find($userid);
 
-        if($user == null)
+        if ($user == null)
             return Redirect::to("/users")->withFail('Users not found ');
         if (in_array($user->role, ['leader', 'admin']))
             return Redirect::to("/users")->withFail(" you don't have permission ");
-             $user->is_active=false;
+        $user->is_active = false;
         $isUpdated = $user->update();
 
 
-        if( $isUpdated )
-            return Redirect::to("/users")->with('success',"user desactivate successfuly ");
-        else  
+        if ($isUpdated)
+            return Redirect::to("/users")->with('success', "user desactivate successfuly ");
+        else
             return Redirect::to("/users")->withFail('Something wrong  ');
-        // return $user;   
-
-
-
     }
-    public function activate ( $userid ){
 
-        $user=User::find($userid);
 
-        if($user == null)
+    public function activate($userid)
+    {
+
+        $user = User::find($userid);
+
+        if ($user == null)
             return Redirect::to("/users")->withFail('Users not found ');
         if (in_array($user->role, ['leader', 'admin']))
             return Redirect::to("/users")->withFail(" you don't have permission ");
-        
-        $user->is_active=true;
+
+        $user->is_active = true;
         $isUpdated = $user->update();
 
 
-        if( $isUpdated )
-            return Redirect::to("/users")->with('success',"user activate successfuly ");
-        else  
+        if ($isUpdated)
+            return Redirect::to("/users")->with('success', "user activate successfuly ");
+        else
             return Redirect::to("/users")->withFail('Something wrong  ');
-        // return $user;   
+    }
 
+    public function update(Request $request)
+    {
+        $user = User::find($request->id_user);
+        // return $user ;
+        if ($user == null)
+            return redirect()->back()->withFail('User not exist');
 
+        if (\Auth::user()->role != "admin")
+            return redirect()->back()->withFail("you d'ont have permisson ");
 
+        $user->role = $request->role;
+
+        $saved = $user->update();
+        if ($saved)
+            return redirect()->back()->with("success", " role changed");
+        else
+            return redirect()->back()->withFail("something wrong ");
     }
 }

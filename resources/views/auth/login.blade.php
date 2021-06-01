@@ -8,6 +8,11 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    @if(Session::has('fail'))
+    <div class="alert alert-danger">
+       {{Session::get('fail')}}
+    </div>
+@endif
                     {{-- <form method="POST" action="{{ route('login') }}"> --}}
                     <form method="POST" action="{{ route('custumlogin') }}">
                         @csrf

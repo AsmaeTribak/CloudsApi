@@ -12,16 +12,12 @@
 */
 
 
-Route::get( '/users' , 'UserController@index' );//->middleware('managerRole');
-Route::get( '/users/reset/password/{userid}' , 'UserController@resetUserPassword' );//->middleware('managerRole');
-Route::get( '/test' , 'TestEmail@index' );//->middleware('managerRole');
-Route::get( '/users/desactivate/{userid}' , 'UserController@desactivate');//->middleware('managerRole');
-
-Route::get( '/users/activate/{userid}' , 'UserController@activate');//->middleware('managerRole');
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get( '/users' , 'UserController@index' );
+Route::get( '/users/reset/password/{userid}' , 'UserController@resetUserPassword' );
+Route::get( '/test' , 'TestEmail@index' );
+Route::get( '/users/desactivate/{userid}' , 'UserController@desactivate');
+Route::get( '/users/activate/{userid}' , 'UserController@activate');
+Route::post( '/users' , 'UserController@update')->name("updateuser");
 
 Auth::routes();
 

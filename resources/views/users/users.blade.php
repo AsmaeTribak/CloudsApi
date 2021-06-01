@@ -35,7 +35,7 @@
                         @if (in_array(Auth::user()->role, ['leader', 'admin']))
                             <th scope="col">Actions</th>
                         @endif
-                       
+
                         @if (in_array(Auth::user()->role, ['admin']))
                             <th scope="col"> Delete</th>
                         @endif
@@ -62,7 +62,10 @@
                             @if (in_array(Auth::user()->role, ['leader', 'admin']))
                                 <td>
                                     @if (Auth::user()->role == 'admin')
-                                        <button class="btn btn-primary btn-sm">Update Role</button>
+                                        <button type="button" class="btn btn-primary btn-sm" 
+                                            data-id="{{ $user->id_user }}" data-name="{{ $user->name }}" data-role="{{$user->role}}"
+                                            onclick="btnShowModal(this)">
+                                            Update Role </button>
                                     @endif
                                     @if (!in_array($user->role, ['leader', 'admin']))
                                         @if ($user->is_active)
@@ -94,6 +97,82 @@
 
         </div>
     </div>
+    <!-- Modal -->
+    <form action="{{ route('updateuser') }}" method="post">
+        @csrf
+        <div class="modal fade" id="changer_rool_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
 
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update user role</h5>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <input type="hidden" id="hidden_user_id" name="id_user" >
+
+                        <div class="mb-3">
+                            <label for="name_user_id" class="form-label"> name</label>
+                            <input type="text" class="form-control form-control-sm form-controld-readonly " readonly
+                                id="name_user_id" placeholder="user name">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role_user_id" class="form-label">role</label>
+                            <select class="form-select form-select-sm " id="role_user_id" name="role">
+                                <option value="agent">Agent</option>
+                                <option value="leader">Leader</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="myModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Save User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+@endSection
+
+
+@section('js')
+    <script>
+        // var modalToggle = document.getElementById('changer_rool_user') // relatedTarget
+
+        // var myModal = new bootstrap.Modal(document.getElementById('changer_rool_user'), {
+        //   keyboard: false
+        // })
+
+        let myModal;
+
+
+        window.onload = function() {
+            myModal = new bootstrap.Modal(document.getElementById('changer_rool_user'), {
+                keyboard: false
+            })
+        }
+
+
+        function btnShowModal(element) {
+
+
+            console.log( element.dataset )
+            document.querySelector('#hidden_user_id').value=element.dataset.id
+            document.querySelector('#name_user_id').value=element.dataset.name
+            document.querySelector('#role_user_id').value=element.dataset.role
+            // name_user_id
+            // role_user_id
+
+
+            // console.log("show modal")
+            myModal.show()
+        }
+
+    </script>
 
 @endSection

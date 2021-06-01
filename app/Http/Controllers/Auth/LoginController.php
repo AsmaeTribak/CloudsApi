@@ -55,7 +55,7 @@ class LoginController extends Controller
         $authed = Auth::attempt($user_data);
 
         if(!$authed){
-            return redirect()->route('login');
+            return redirect()->route('login')->withFail('Something wrong !! check your password ');
         }
 
         if ( Auth::check() ) {
