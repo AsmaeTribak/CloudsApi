@@ -21,7 +21,9 @@ class UserController extends Controller
     public function index()
     {
 
-        $usersOfCurrentEntity = \Auth::user()->entity->users;
+        $usersOfCurrentEntity = \Auth::user()->entity->users()->paginate(5);
+
+        // return $usersOfCurrentEntity;
 
         return view('users.users', ['usersOfCurrentEntity' => $usersOfCurrentEntity]);
     }

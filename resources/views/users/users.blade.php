@@ -94,6 +94,7 @@
 
                 </tbody>
             </table>
+            {{ $usersOfCurrentEntity->links() }}
 
         </div>
     </div>
