@@ -31,9 +31,13 @@
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-                        <th scope="col">is Activate</th>
+                        <th scope="col">Status</th>
                         @if (in_array(Auth::user()->role, ['leader', 'admin']))
                             <th scope="col">Actions</th>
+                        @endif
+                       
+                        @if (in_array(Auth::user()->role, ['admin']))
+                            <th scope="col"> Delete</th>
                         @endif
                     </tr>
                 </thead>
@@ -61,15 +65,26 @@
                                         <button class="btn btn-primary btn-sm">Update Role</button>
                                     @endif
                                     @if (!in_array($user->role, ['leader', 'admin']))
+                                        @if ($user->is_active)
+                                            <a href="{{ url('/users/desactivate/' . $user->id_user) }}"
+                                                class="btn btn-primary btn-sm">desactive</a>
+                                        @else
+                                            <a href="{{ url('/users/activate/' . $user->id_user) }}"
+                                                class="btn btn-primary btn-sm">active</a>
 
-                                        <a href="{{ url('/users/desactivate/' . $user->id_user) }}"
-                                            class="btn btn-primary btn-sm">desactive User</a>
+                                        @endif
                                     @endif
 
                                     <a href="{{ url('/users/reset/password/' . $user->id_user) }}"
                                         class="btn btn-primary btn-sm">Reset password</a>
 
                                 </td>
+                                @if (in_array(Auth::user()->role, ['admin']))
+                                    <td>
+                                        <a href="{{ url('/users/activate/' . $user->id_user) }}"
+                                            class="btn btn-primary btn-sm close">&times;</a>
+                                    </td>
+                                @endif
                             @endif
                         </tr>
                     @endforeach

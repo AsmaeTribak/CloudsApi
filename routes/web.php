@@ -17,6 +17,7 @@ Route::get( '/users/reset/password/{userid}' , 'UserController@resetUserPassword
 Route::get( '/test' , 'TestEmail@index' );//->middleware('managerRole');
 Route::get( '/users/desactivate/{userid}' , 'UserController@desactivate');//->middleware('managerRole');
 
+Route::get( '/users/activate/{userid}' , 'UserController@activate');//->middleware('managerRole');
 
 // Route::get('/', function () {
 //     return view('welcome');

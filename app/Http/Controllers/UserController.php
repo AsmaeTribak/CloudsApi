@@ -48,13 +48,34 @@ class UserController extends Controller
             return Redirect::to("/users")->withFail('Users not found ');
         if (in_array($user->role, ['leader', 'admin']))
             return Redirect::to("/users")->withFail(" you don't have permission ");
-
-        $user->is_active=false;
+             $user->is_active=false;
         $isUpdated = $user->update();
 
 
         if( $isUpdated )
             return Redirect::to("/users")->with('success',"user desactivate successfuly ");
+        else  
+            return Redirect::to("/users")->withFail('Something wrong  ');
+        // return $user;   
+
+
+
+    }
+    public function activate ( $userid ){
+
+        $user=User::find($userid);
+
+        if($user == null)
+            return Redirect::to("/users")->withFail('Users not found ');
+        if (in_array($user->role, ['leader', 'admin']))
+            return Redirect::to("/users")->withFail(" you don't have permission ");
+        
+        $user->is_active=true;
+        $isUpdated = $user->update();
+
+
+        if( $isUpdated )
+            return Redirect::to("/users")->with('success',"user activate successfuly ");
         else  
             return Redirect::to("/users")->withFail('Something wrong  ');
         // return $user;   
