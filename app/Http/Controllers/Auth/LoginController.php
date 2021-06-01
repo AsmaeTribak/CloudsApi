@@ -43,7 +43,7 @@ class LoginController extends Controller
 
         $this->validate($request, [
             'email' => 'required|email|exists:users,email,is_active,1',
-            'password' => 'required|min:6',
+            'password' => 'required',
         ]);
 
         $user_data = array(
