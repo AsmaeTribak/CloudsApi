@@ -25,6 +25,9 @@ Route::get( '/users/activate/{userid}' , 'UserController@activate');//->middlewa
 
 Auth::routes();
 
+Route::post( '/login' , 'Auth\LoginController@checklogin')->name('newlogin');//->middleware('managerRole');
+
+
 
 Route::get('/', 'HomeController@index')->name('home');
 
