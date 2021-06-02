@@ -14,7 +14,7 @@ class EntityController extends Controller
      */
     public function index()
     {
-        $entities = Entity::all();
+        $entities = Entity::paginate(5);
 
         // return $usersOfCurrentEntity;
 
@@ -105,6 +105,14 @@ class EntityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $entity=Entity::find($id);
+
+        $entity->delete();
+        $delete= $entity->delete();
+        if ($delete)
+        return redirect()->back()->with('success','entity delete successfuly');
+        else
+        return redirect()->back()->withfail('hopelessly');
+
     }
 }

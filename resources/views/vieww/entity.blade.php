@@ -30,7 +30,8 @@
                     <th scope="col">Reference Entity</th>
                     <th scope="col">Entity name</th>
                     <th scope="col">Entity id </th>
-                    <th scope="col"> actions</th>
+                    <th scope="col"> Actions</th>
+                    <th scope="col"> Delete</th>
 
                 </tr>
             </thead>
@@ -43,11 +44,15 @@
                             <th scope="row">{{ $entity->ref_entity }}</th>
                             <td>{{ $entity->name }}</td>
                             <td>{{ $entity->id_entity }}</td>
-                            <td> <button class="btn btn-primary btn-sm"
+                            <td> <button class="btn btn-warning btn-sm"
                                 data-id="{{ $entity->id_entity }}"
                                 data-ref="{{ $entity->ref_entity }}"
                                 data-name="{{ $entity->name }}"
-                                onclick="btnShowModal(this)">update entity</button>                            </td>
+                                onclick="btnShowModal(this)"><i class="bi bi-pencil-square"></i>
+                                entity</button>  </td>
+                            <td> <a href="{{ url('/entities/destroy/' . $entity->id_entity) }}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></a>  </td>
+
+
 
                             
                         
@@ -56,6 +61,8 @@
 
                 </tbody>
         </table>
+        {{ $entities->links() }}
+
         
 
 <!-- Modal -->
@@ -78,8 +85,8 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
         </div>
       </div>
     </div>
@@ -110,8 +117,8 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
         </div>
       </div>
     </div>

@@ -8,6 +8,17 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+          @if (in_array(Auth::user()->role, ['admin']))
+          <li class="nav-item ">
+            <a class="nav-link  {{ (request()->is('entities')) ? 'active' : '' }}" href="{{url('/entities')}}">Entities</a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="nav-link  {{ (request()->is('users')) ? 'active' : '' }}" href="{{url('/users')}}">Users</a>
+          </li>
+          @endif
           {{-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
