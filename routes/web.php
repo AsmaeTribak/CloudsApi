@@ -18,6 +18,10 @@ Route::get( '/test' , 'TestEmail@index' );
 Route::get( '/users/desactivate/{userid}' , 'UserController@desactivate');
 Route::get( '/users/activate/{userid}' , 'UserController@activate');
 Route::post( '/users' , 'UserController@update')->name("updateuser");
+Route::get( '/entities' , 'EntityController@index' );
+Route::post( '/entities' , 'EntityController@store' )->name("addentity");
+Route::post( '/entities/update' , 'EntityController@update' )->name("updateentity");
+
 
 Auth::routes();
 

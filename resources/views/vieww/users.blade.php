@@ -62,30 +62,31 @@
                             @if (in_array(Auth::user()->role, ['leader', 'admin']))
                                 <td>
                                     @if (Auth::user()->role == 'admin')
-                                        <button type="button" class="btn btn-primary btn-sm" 
+                                        <button type="button" class="btn btn-warning btn-sm" 
                                             data-id="{{ $user->id_user }}" data-name="{{ $user->name }}" data-role="{{$user->role}}"
                                             onclick="btnShowModal(this)">
-                                            Update Role </button>
+                                            <i class="bi bi-pencil-square"></i> Role </button>
                                     @endif
                                     @if (!in_array($user->role, ['leader', 'admin']))
                                         @if ($user->is_active)
                                             <a href="{{ url('/users/desactivate/' . $user->id_user) }}"
-                                                class="btn btn-primary btn-sm">desactive</a>
+                                                class="btn btn-info btn-sm"><i class="bi bi-lock-fill"></i></a>
                                         @else
                                             <a href="{{ url('/users/activate/' . $user->id_user) }}"
-                                                class="btn btn-primary btn-sm">active</a>
+                                                class="btn btn-info btn-sm"><i class="bi bi-unlock-fill"></i></a>
 
                                         @endif
                                     @endif
 
                                     <a href="{{ url('/users/reset/password/' . $user->id_user) }}"
-                                        class="btn btn-primary btn-sm">Reset password</a>
+                                        class="btn btn-dark btn-sm"><i class="bi bi-arrow-counterclockwise"></i> password</a>
 
                                 </td>
                                 @if (in_array(Auth::user()->role, ['admin']))
                                     <td>
                                         <a href="{{ url('/users/activate/' . $user->id_user) }}"
-                                            class="btn btn-primary btn-sm close">&times;</a>
+                                            class="btn btn-danger btn-sm close">
+                                            <i class="bi bi-trash-fill"></i></a>
                                     </td>
                                 @endif
                             @endif

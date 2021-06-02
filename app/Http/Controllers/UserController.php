@@ -25,7 +25,7 @@ class UserController extends Controller
 
         // return $usersOfCurrentEntity;
 
-        return view('users.users', ['usersOfCurrentEntity' => $usersOfCurrentEntity]);
+        return view('vieww.users', ['usersOfCurrentEntity' => $usersOfCurrentEntity]);
     }
     public function resetUserPassword($userid)
     {
