@@ -107,12 +107,13 @@ class EntityController extends Controller
     {
         $entity=Entity::find($id);
 
-        $entity->delete();
+     
         $delete= $entity->delete();
-        if ($delete)
-        return redirect()->back()->with('success','entity delete successfuly');
-        else
-        return redirect()->back()->withfail('hopelessly');
+        
+        
+        return $delete ? 
+            redirect()->back()->with('success','entity delete successfuly'):
+            redirect()->back()->withfail('hopelessly');
 
     }
 }
