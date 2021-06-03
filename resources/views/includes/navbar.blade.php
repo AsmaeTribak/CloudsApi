@@ -18,6 +18,9 @@
           <li class="nav-item ">
             <a class="nav-link  {{ (request()->is('users')) ? 'active' : '' }}" href="{{url('/users')}}">Users</a>
           </li>
+          <li class="nav-item ">
+            <a class="nav-link  {{ (request()->is('providers')) ? 'active' : '' }}" href="{{url('/providers')}}">Providers</a>
+          </li>
           @endif
           {{-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mail;
+use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
 
 class TestEmail extends Controller
 {
@@ -25,4 +26,15 @@ class TestEmail extends Controller
 
 
     }
+    // public Function teest(
+    //   $entity->providers()->
+
+
+
+
+
+    // )
+
+
+
 }

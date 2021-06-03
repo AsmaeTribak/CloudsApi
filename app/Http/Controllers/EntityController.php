@@ -16,9 +16,8 @@ class EntityController extends Controller
     {
         $entities = Entity::paginate(5);
 
-        // return $usersOfCurrentEntity;
 
-        return view('vieww.entity', ['entities' => $entities]);
+        return view('gestion.entity', ['entities' => $entities]);
     }
 
     /**

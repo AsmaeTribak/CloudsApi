@@ -12,7 +12,7 @@
         @if (Session::has('fail'))
         <div class="alert alert-danger">
             {{ Session::get('fail') }}
-        </div>
+     </div>
         @endif
         @if (Session::has('success'))
                 <div class="alert alert-success">
@@ -86,7 +86,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+          <button type="submit" class="btn btn-primary btn-sm"> Save </button>
         </div>
       </div>
     </div>

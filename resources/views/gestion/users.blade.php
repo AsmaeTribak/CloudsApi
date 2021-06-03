@@ -3,7 +3,7 @@
 
 @section('content')
 
-
+ 
     <div class="row mt-5">
 
         <div class="col-md-10 offset-1">
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach ($usersOfCurrentEntity as $user)
+                    @foreach ($usersOfCurrentEntity  as $user)
 
 
                         <tr>
@@ -99,6 +99,7 @@
 
         </div>
     </div>
+    
     <!-- Modal -->
     <form action="{{ route('updateuser') }}" method="post">
         @csrf
@@ -138,17 +139,13 @@
                 </div>
             </div>
         </div>
-    </form>
+    </form> 
 @endSection
 
 
 @section('js')
     <script>
-        // var modalToggle = document.getElementById('changer_rool_user') // relatedTarget
 
-        // var myModal = new bootstrap.Modal(document.getElementById('changer_rool_user'), {
-        //   keyboard: false
-        // })
 
         let myModal;
 
@@ -167,14 +164,10 @@
             document.querySelector('#hidden_user_id').value=element.dataset.id
             document.querySelector('#name_user_id').value=element.dataset.name
             document.querySelector('#role_user_id').value=element.dataset.role
-            // name_user_id
-            // role_user_id
-
-
-            // console.log("show modal")
+ 
             myModal.show()
         }
 
     </script>
 
-@endSection
+@endSection 

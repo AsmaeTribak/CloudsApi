@@ -17,7 +17,11 @@ class Entity extends Model
      */
     public function users()
     {
-        return $this->hasMany( User::class , 'entity_id' );
+        return $this->hasMany( User::class , 'entity_id');
     }
+    public function providers(){
 
+
+        return $this->belongstoMany( Provider::class  ,'entity-provider' , 'entity_id' , 'provider_id' );
+    }
 }

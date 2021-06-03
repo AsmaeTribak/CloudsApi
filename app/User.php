@@ -49,7 +49,7 @@ class User extends Authenticatable
      */
     public function entity()
     {
-        return $this->belongsTo( Entity::class , 'entity_id');
+        return $this->belongsTo( Entity::class , 'entity_id'  );
         // return $this->belongsTo('App\Entity' );
     }
 }
