@@ -21,9 +21,12 @@ Route::post( '/users' , 'UserController@update')->name("updateuser");
 Route::get( '/entities' , 'EntityController@index' );
 Route::post( '/entities' , 'EntityController@store' )->name("addentity");
 Route::post( '/entities/update' , 'EntityController@update' )->name("updateentity");
-Route::get( '/entities/destroy/{userid}' , 'EntityController@destroy');
-Route::get( '/providers' , 'ProviderController@index' );
+Route::get(  '/entities/destroy/{userid}' , 'EntityController@destroy');
+Route::get(  '/providers' , 'ProviderController@index' );
+Route::post( '/providers/attach/{providerid}' , 'ProviderController@attach' );
 Route::post( '/providers' , 'ProviderController@store' )->name("addprovider");
+Route::get(  '/providers/{providerid}/{action}/{entityid}' , 'ProviderController@edit' );
+
 
 
 

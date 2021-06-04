@@ -22,7 +22,8 @@
             <tr>
                 <th scope="col">Provider id </th>
                 <th scope="col">Provider name</th>
-                <th scope="col">entities</th>
+                <th scope="col">actions</th>
+                <th scope="col">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,9 +36,32 @@
                     
                     @foreach ( $provider->entities as $entity)
                      <span class="badge bg-primary">{{$entity->name }}
-                        <button class="btn btn-danger px-1 py-0" style="height:20px;" >x</button>    
-                    </span>
+                        <a href='{{ url ("/providers/$provider->id_provider/dettache/$entity->id_entity") }}' class="btn btn-danger px-1 py-0" style="height:20px;" > x </a>    
+                    </span> 
                     @endforeach
+
+                    
+                </td>
+
+                <td> 
+
+                    <form action='{{ url("/providers/attach/$provider->id_provider") }}' method="POST">
+                    @csrf
+                    <div class="input-group input-group-sm ">
+                        <select class="form-select" id="inputGroupSelect04" name="entityid" aria-label="Example select with button addon">
+
+                        @php 
+                            $entitiesAttached = $provider->entities->map( function($item, $key) { return  $item->id_entity; })->toArray() ;
+                        @endphp
+
+                          @foreach ( \App\Models\Entity::all() as $entity )
+                            <option @if( in_array( $entity->id_entity ,  $entitiesAttached ) ) disabled @endif value="{{$entity->id_entity}}"> {{  $entity->name }} </option>
+                          @endforeach
+
+                        </select>
+                        <button class="btn btn-outline-primary" type="submit">Attach</button>
+                      </div>
+                    </form>
                     
                 </td>
                 </tr>
@@ -72,8 +96,11 @@
     </div>
   </div>
 </form>
+@endSection
+
+
  
 
-@endSection
+
    
 
