@@ -26,7 +26,7 @@ Route::get(  '/providers' , 'ProviderController@index' );
 Route::post( '/providers/attach/{providerid}' , 'ProviderController@attach' );
 Route::post( '/providers' , 'ProviderController@store' )->name("addprovider");
 Route::get(  '/providers/{providerid}/{action}/{entityid}' , 'ProviderController@edit' );
-
+Route::get(  '/accounts' , 'AccountsController@index' );
 
 
 
