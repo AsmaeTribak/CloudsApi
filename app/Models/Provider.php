@@ -15,4 +15,8 @@ class Provider extends Model
 
         return $this->belongstoMany( Entity::class , 'entity-provider' , 'provider_id' , 'entity_id');
     }
+    public function accounts()
+    {
+        return $this->hasMany(Account::class , 'provider_id');
+    }
 }

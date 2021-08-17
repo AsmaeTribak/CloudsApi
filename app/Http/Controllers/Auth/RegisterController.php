@@ -43,8 +43,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('managerRole');
-        // $this->middleware('guest');
+        // $this->middleware('managerRole');
+        $this->middleware('guest');
     }
 
     /**
