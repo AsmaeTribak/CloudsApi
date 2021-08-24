@@ -75,7 +75,7 @@
     @csrf
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
@@ -86,11 +86,23 @@
         <input type='text'  class="form-control form-control-sm" name ="name" placeholder=" account name">
         <label for='proxy_of_account'class="form-label">proxy</label>
         <input type='text'class="form-control form-control-sm " name ='proxy' placeholder="proxy ">
-        {{-- <input type='hidden'class="form-control form-control-sm " name ='provider_id' value='{{$provider_id}}' placeholder="proxy "> --}}
-        <label for=' sshkey id'class="form-label">sshkey id</label>
-        <input type='text'class="form-control form-control-sm " name ='sshkey_id' placeholder="proxy ">
-       
+        {{-- <label for=' sshkey id'class="form-label">sshkey id</label> --}}
+        {{-- <input type='text'class="form-control form-control-sm " name ='sshkey_id' placeholder="proxy "> --}}
+        <label for='keys_of_account'class="form-label">number of key</label>
 
+        <div class="input-group input-group-sm ">
+            <select class="form-select" id="inputGroupSelect04" name="sshkeyid" aria-label="Example select with button addon">
+
+
+                <option> One key</option>
+                <option>two key </option>
+                <option> four key</option>
+            </select>
+          </div>
+
+        
+
+        
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>

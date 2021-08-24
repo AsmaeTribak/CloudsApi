@@ -19,11 +19,8 @@ class CreateAuthkeysTable extends Migration
             $table->string('second_key');
             $table->string('third_key');
             $table->string('fourth_key');
+            $table->enum('type', ['1key', '2key' , '4key']);
             $table->unsignedBigInteger('account_id');
-
-
-            
-
         });
     }
 
