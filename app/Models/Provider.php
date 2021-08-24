@@ -17,6 +17,6 @@ class Provider extends Model
     }
     public function accounts()
     {
-        return $this->hasMany(Account::class , 'provider_id');
+        return $this->hasMany( Account::class , 'provider_id');
     }
 }
