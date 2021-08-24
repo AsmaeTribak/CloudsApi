@@ -1,7 +1,26 @@
 @extends('layouts.main')
 @section('content')
+<div class="row mt-5">
 
-    
+    <div class="col-md-10 offset-1">
+
+        <button class="btn btn-primary btn-sm float-end mt-3"   data-bs-toggle="modal" data-bs-target="#exampleModal" >add account</button>
+        <h1 class="text-center"> Account Management </h1>
+
+        @if (Session::has('fail'))
+            <div class="alert alert-danger">
+                {{ Session::get('fail') }}
+            </div>
+        @endif
+
+
+        @if (Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+
+
        
     <table class="table table-bordered border-primary mt-5">
         <thead>
@@ -51,7 +70,8 @@
     </table>
 
 <!-- Modal -->
-<form action="{{ route('addaccount')}} " method="Post">
+<!-- Modal -->
+<form action="{{ url("/accounts/$provider_id") }}" method="Post">
     @csrf
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,10 +82,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <label for='name_of_entity' class="form-label"> name</label>
-        <input type='text'  class="form-control form-control-sm" name ="name" placeholder="account name">
-        <label for='reference_of_entity'class="form-label">proxy</label>
-        <input type='text'class="form-control form-control-sm " name ='proxy' placeholder="proxy">
+        <label for='name_of_account' class="form-label"> name</label>
+        <input type='text'  class="form-control form-control-sm" name ="name" placeholder=" account name">
+        <label for='proxy_of_account'class="form-label">proxy</label>
+        <input type='text'class="form-control form-control-sm " name ='proxy' placeholder="proxy ">
+        {{-- <input type='hidden'class="form-control form-control-sm " name ='provider_id' value='{{$provider_id}}' placeholder="proxy "> --}}
+        <label for=' sshkey id'class="form-label">sshkey id</label>
+        <input type='text'class="form-control form-control-sm " name ='sshkey_id' placeholder="proxy ">
        
 
         </div>
@@ -82,26 +105,6 @@
 
  
 
-@section('js')
-    <script>
-
-
-        let myModal;
-
-        function btnShowModal(element) {
-
-
-            // console.log( element.dataset )
-
-            document.querySelector('#account_name_input').value=element.dataset.name
-            document.querySelector('#account_proxy_input').value=element.dataset.ref
-
-            myModal.show()
-        }
-
-    </script>
-
-@endSection
                 
 
 

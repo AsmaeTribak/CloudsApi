@@ -6,7 +6,7 @@ use App\Models\Account;
 use App\Models\Provider;
 use App\SSHkey;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 
 class AccountsController extends Controller
 {
@@ -19,28 +19,29 @@ class AccountsController extends Controller
         $accounts = $provider->accounts ;
          
         // return [ $accounts[0]->sshkey == null ];
-        return view('gestion.accounts', ['accounts' => $accounts]);
+        return view('gestion.accounts', ['accounts' => $accounts , 'provider_id' => $providerid]);
     }
-    public function store(Request $request)
+    public function addaccount( $providerid , Request $request)
     {
+        // return [ $providerid , $request->all() ]; 
        $account = new Account;
 
         $account->name=$request->name;
         $account->proxy=$request->proxy;
-        $saved = $account->save();
+        $account->provider_id= $providerid;
+        // $account->sshkey_id=$request->sshkey_id;
+        
+        $is_saved = $account->save();
 
-        // return [ $entity , $request->all() ];
-
-        if( $saved)
+        if( $is_saved)
         return redirect()->back()->with('success','account added successfuly');
         else
         return redirect()->back()->withfail('hopelessly' );
-    
     }
     public function desactivate($accountsid)
     {
 
-        $account= Accounts::find($accountsid);
+        $account= Account::find($accountsid);
 
         if ($account == null)
             return Redirect::to("/accounts")->withFail('accounts not found ');
@@ -59,7 +60,7 @@ class AccountsController extends Controller
     public function activate($accountsid)
     {
 
-        $account= Accounts::find($accountsid);
+        $account= Account::find($accountsid);
 
         if ($account== null)
             return Redirect::to("/accounts")->withFail('$account not found ');
