@@ -15,10 +15,10 @@ class CreateAuthkeysTable extends Migration
     {
         Schema::create('authkeys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('first_key');
-            $table->string('second_key');
-            $table->string('third_key');
-            $table->string('fourth_key');
+            $table->string('first_key')->nullable();
+            $table->string('second_key')->nullable();
+            $table->string('third_key')->nullable();
+            $table->string('fourth_key')->nullable();
             $table->enum('type', ['1key', '2key' , '4key']);
             $table->unsignedBigInteger('account_id');
         });

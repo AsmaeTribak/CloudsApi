@@ -6,7 +6,7 @@
 
             <button class="btn btn-primary btn-sm float-end mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">add
                 account</button>
-            <h1 class="text-center"> Account Management </h1>
+            <h1 class="text-center"> Account Management Of {{ ucwords(strtolower($provider->name )) }} </h1>
 
             @if (Session::has('fail'))
                 <div class="alert alert-danger">
@@ -29,11 +29,29 @@
                     <tr>
                         <th scope="col">Account name</th>
                         <th scope="col">Account proxy</th>
+
+                        @switch($provider->type)
+
+                            @case('1key')
+                                <th scope="col">First key</th>
+                            @break
+
+                            @case('2key')
+                                <th scope="col">First key</th>
+                                <th scope="col">Second key</th>
+                            @break
+
+                            @case('4key')
+                                <th scope="col">First key</th>
+                                <th scope="col">Second key</th>
+                                <th scope="col">thierd key</th>
+                                <th scope="col">Four key</th>
+                            @break
+
+                        @endswitch
+
                         <th scope="col"> provider name</th>
                         <th scope="col"> sshkey</th>
-
-
-
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +70,28 @@
                                     {{ $account->proxy }}
                                 @endif
                             </td>
+
+                            @switch($provider->type)
+
+                                @case('1key')
+                                    <td> {{ $account->getAuth()->first_key }}</td>
+                                @break
+
+                                @case('2key')
+                                    <td> {{ $account->getAuth()->first_key }}</td>
+                                    <td> {{ $account->getAuth()->second_key }}</td>
+                                @break
+
+                                @case('4key')
+                                    <td> {{ $account->getAuth()->first_key }}</td>
+                                    <td> {{ $account->getAuth()->second_key }}</td>
+                                    <td> {{ $account->getAuth()->third_key }}</td>
+                                    <td> {{ $account->getAuth()->fourth_key }}</td>
+                                @break
+
+                            @endswitch
+
+
                             <td>
 
                                 {{ $account->provider->name }}
@@ -77,7 +117,7 @@
                         </tr>
                     @endforeach
             </table>
-            
+
             <!-- Modal -->
             <form action="{{ url("/accounts/$provider->id_provider") }}" method="Post">
                 @csrf
@@ -169,71 +209,3 @@
             </tbody>
         @endSection
 
-@section('js')
-
-<script>
-
-    // numberKeyChanged()
-
-    // function numberKeyChanged(){
-
-    //     const elemnt = document.querySelector("#numberKeysSelect")
-
-    //     const container = document.querySelector(".container-of-keies")
-
-    //     container.innerHTML = "";
-
-    //     switch(elemnt.value){
-    //         case '1key':
-    //             container.innerHTML = `<div class="row g-3">
-    //                                         <div class="col-6">
-    //                                             <label for='keys_of_account' class="form-label">First key</label>
-    //                                             <input type="text" class="form-control form-control-sm" name="keys[firstKey]" placeholder="1th key" >
-    //                                         </div>
-    //                                     </div>`;
-    //             break;
-    //         case '2key':
-            // container.innerHTML = `<div class="row g-3">
-            //                             <div class="col-6">
-            //                                 <label for='keys_of_account' class="form-label">First key</label>
-            //                                 <input type="text" class="form-control form-control-sm" name="keys[firstKey]" placeholder="1th key" >
-            //                             </div>
-            //                             <div class="col-6">
-            //                                 <label for='keys_of_account' class="form-label">Second key</label>
-            //                                 <input type="text" class="form-control form-control-sm" name="keys[secondKey]" placeholder="2ed key" >
-            //                             </div>
-            //                         </div>`;
-    //             break;
-    //         case '4key':
-                // container.innerHTML =  `<div class="row g-3">
-                //                             <div class="col-6">
-                //                                 <label for='keys_of_account' class="form-label">First key</label>
-                //                                 <input type="text" class="form-control form-control-sm" name="keys[firstKey]" placeholder="1th key" >
-                //                             </div>
-                //                             <div class="col-6">
-                //                                 <label for='keys_of_account' class="form-label">Second key</label>
-                //                                 <input type="text" class="form-control form-control-sm" name="keys[secondKey]" placeholder="2ed key" >
-                //                             </div>
-                //                         </div>
-
-                //                         <div class="row g-3">
-                //                             <div class="col-6">
-                //                                 <label for='keys_of_account' class="form-label">Thread key</label>
-                //                                 <input type="text" class="form-control form-control-sm" name="keys[threadKey]" placeholder="3th key">
-                //                             </div>
-                //                             <div class="col-6">
-                //                                 <label for='keys_of_account' class="form-label">Fourth key</label>
-                //                                 <input type="text" class="form-control form-control-sm"  name="keys[fourthKey]" placeholder="4th key" >
-                //                             </div>
-                //                         </div>`
-    //             break;
-    //     }
-
-
-    // }
-
-
-
-</script>
-
-@endSection
