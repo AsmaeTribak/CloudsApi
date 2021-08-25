@@ -16,6 +16,7 @@ class CreateProvidersTable extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->bigIncrements('id_provider');
             $table->string('name');
+            $table->enum('type', ['1key', '2key' , '4key'])->default('1key');
             $table->timestamps();
         });
     }

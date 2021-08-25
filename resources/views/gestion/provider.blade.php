@@ -16,13 +16,14 @@
                     {{ Session::get('success') }}
                 </div>
             @endif
-   
+
     <table class="table table-bordered border-primary mt-5">
+        <caption> Provider Table </caption>
         <thead>
             <tr>
                 <th scope="col">Provider id </th>
                 <th scope="col">Provider name</th>
-                <th scope="col">actions</th>
+                <th scope="col">Entities</th>
                 <th scope="col">actions</th>
             </tr>
         </thead>
@@ -30,27 +31,27 @@
 
             @foreach ($providers as $provider)
             <tr>
-                <td> {{ $provider->id_provider }}</td>
-                <td> {{ $provider->name }}</td>
-                <td> 
-                    
+                <td> {{ $provider->id_provider }} </td>
+                <td> {{ $provider->name }} /  {{ $provider->type }} </td>
+                <td>
+
                     @foreach ( $provider->entities as $entity)
-                     <span class="badge bg-primary">{{$entity->name }}
-                        <a href='{{ url ("/providers/$provider->id_provider/dettache/$entity->id_entity") }}' class="btn btn-danger px-1 py-0" style="height:20px;" > x </a>    
-                    </span> 
+                        <span class="badge bg-primary">{{$entity->name }}
+                            <a href='{{ url ("/providers/$provider->id_provider/dettache/$entity->id_entity") }}' class="btn btn-danger px-1 py-0"  > <i class="bi bi-x-lg"></i> </a>
+                        </span>
                     @endforeach
 
-                    
+
                 </td>
 
-                <td> 
+                <td>
 
                     <form action='{{ url("/providers/attach/$provider->id_provider") }}' method="POST">
                     @csrf
                     <div class="input-group input-group-sm ">
                         <select class="form-select" id="inputGroupSelect04" name="entityid" aria-label="Example select with button addon">
 
-                        @php 
+                        @php
                             $entitiesAttached = $provider->entities->map( function($item, $key) { return  $item->id_entity; })->toArray() ;
                         @endphp
 
@@ -62,7 +63,7 @@
                         <button class="btn btn-outline-primary" type="submit">Attach</button>
                       </div>
                     </form>
-                    
+
                 </td>
                 </tr>
         @endforeach
@@ -81,11 +82,23 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+
         <label for='name_of_provider' class="form-label"> name</label>
         <input type='text'  class="form-control form-control-sm" name ="name" placeholder="provider name">
+
         <label for='id_of_entity'class="form-label"> provider id</label>
         <input type='text'class="form-control form-control-sm " name ='id_provider' placeholder="id ">
-       
+
+        <label for='keys_of_account' class="form-label">number of key</label>
+        <div class="input-group input-group-sm ">
+
+            <select class="form-select" name="authType" id="numberKeysSelect" >
+                <option value="1key" > One key </option>
+                <option value="2key" > Two key </option>
+                <option value="4key" > Four key </option>
+            </select>
+
+        </div>
 
         </div>
         <div class="modal-footer">
@@ -97,10 +110,4 @@
   </div>
 </form>
 @endSection
-
-
- 
-
-
-   
 

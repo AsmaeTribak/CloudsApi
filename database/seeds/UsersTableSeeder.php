@@ -15,7 +15,8 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'user 01',
             'email' => 'asmae.98trb@gmail.com',
-            'password' =>'$2y$10$Vkbct9R/R5uwmkOJCaUFpO/TmMHXsdRwP0ttdwPoqBkSASN4Uvvlu' ,
+            // 'password' =>'$2y$10$Vkbct9R/R5uwmkOJCaUFpO/TmMHXsdRwP0ttdwPoqBkSASN4Uvvlu' ,
+            'password' => '$2y$10$j.NZ63ApzVLSTmO4A5fpqOYFxR2SNNZVzrLau58dIVHqVRVl21zra' ,
             'role' => 'leader',
             'ref_user' => 12,
             'entity_id' => 1

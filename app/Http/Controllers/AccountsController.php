@@ -12,31 +12,32 @@ class AccountsController extends Controller
 {
     public function index($providerid)
     {
-        // $accounts = Account::all();
-        $provider = Provider::findOrFail($providerid); 
-        // $test= Accounts::all();
+        $provider = Provider::findOrFail($providerid);
 
         $accounts = $provider->accounts ;
-         
-        // return [ $accounts[0]->sshkey == null ];
-        return view('gestion.accounts', ['accounts' => $accounts , 'provider_id' => $providerid]);
+
+        return view('gestion.accounts', ['accounts' => $accounts , 'provider' => $provider ]);
+        // return view('gestion.accounts', ['accounts' => $accounts , 'provider_id' => $providerid]);
     }
+
     public function addaccount( $providerid , Request $request)
     {
-        // return [ $providerid , $request->all() ]; 
-       $account = new Account;
-
-        $account->name=$request->name;
-        $account->proxy=$request->proxy;
-        $account->provider_id= $providerid;
-        // $account->sshkey_id=$request->sshkey_id;
         
-        $is_saved = $account->save();
+        $provider = Provider::findOrFail($providerid);
 
-        if( $is_saved)
-        return redirect()->back()->with('success','account added successfuly');
-        else
-        return redirect()->back()->withfail('hopelessly' );
+        return [ $provider , $request->all() ];
+        // $account = new Account;
+
+        // $account->name=$request->name;
+        // $account->proxy=$request->proxy;
+        // $account->provider_id= $providerid;
+
+        // $is_saved = $account->save();
+
+
+        // return $is_saved ?
+        //     redirect()->back()->with('success','account added successfuly') :
+        //     redirect()->back()->withfail('hopelessly' );
     }
     public function desactivate($accountsid)
     {
@@ -45,7 +46,7 @@ class AccountsController extends Controller
 
         if ($account == null)
             return Redirect::to("/accounts")->withFail('accounts not found ');
-       else 
+       else
       $account->is_active = false;
         $isUpdated =$account->update();
 
@@ -64,7 +65,7 @@ class AccountsController extends Controller
 
         if ($account== null)
             return Redirect::to("/accounts")->withFail('$account not found ');
-        else 
+        else
 
         $account->is_active = true;
         $isUpdated = $account->update();
@@ -77,10 +78,10 @@ class AccountsController extends Controller
     }
     public function indexx($sshkeyid)
     {
-        $sshkey= SSHkey::findOrFail($sshkeyid); 
+        $sshkey= SSHkey::findOrFail($sshkeyid);
 
         $accountss = $sshkey->account ;
-         
+
 
         return view('gestion.accounts', ['accounts' => $accountss]);
     }
