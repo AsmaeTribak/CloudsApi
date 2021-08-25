@@ -125,5 +125,14 @@ class AccountsController extends Controller
 
         return view('gestion.accounts', ['accounts' => $accountss]);
     }
+    public function listes(){
+        $providers= Provider::all();
+
+        return view('gestion.listes' ,['providers' => $providers]);
+
+
+
+
+    }
 
 }

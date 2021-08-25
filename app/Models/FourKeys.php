@@ -8,10 +8,9 @@ class FourKeys extends Authkeys
     protected $table = 'authkeys';
 
 
-    protected $fillable = [ 'first_key' , 'second_key' ,'third_key' , 'fourth_key' , 'account_id' ];
-
-
-
+    protected $fillable = [ 'first_key' , 'second_key' , 'account_id' ];
+    protected $hidden   = [ 'third_key' , 'fourth_key' ];
+    
     protected static function boot()
     {
         parent::boot();

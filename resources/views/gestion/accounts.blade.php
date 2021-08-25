@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+
     <div class="row mt-5">
 
         <div class="col-md-10 offset-1">

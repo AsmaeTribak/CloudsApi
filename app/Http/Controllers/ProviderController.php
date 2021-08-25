@@ -40,7 +40,6 @@ class ProviderController extends Controller
         
         $provider=new Provider;
         $provider->name=$request->name;
-        $provider->id_provider=$request->id_provider;
         $provider->type=$request->authType;
 
         $saved = $provider->save();

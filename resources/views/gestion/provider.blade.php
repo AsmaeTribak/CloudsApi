@@ -86,8 +86,7 @@
         <label for='name_of_provider' class="form-label"> name</label>
         <input type='text'  class="form-control form-control-sm" name ="name" placeholder="provider name">
 
-        <label for='id_of_entity'class="form-label"> provider id</label>
-        <input type='text'class="form-control form-control-sm " name ='id_provider' placeholder="id ">
+        
 
         <label for='keys_of_account' class="form-label">number of key</label>
         <div class="input-group input-group-sm ">
