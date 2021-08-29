@@ -29,6 +29,11 @@ Route::get(  '/providers/{providerid}/{action}/{entityid}' , 'ProviderController
 Route::get(  '/accounts' , 'AccountsController@listes');
 Route::get(  '/accounts/{providerid}' , 'AccountsController@index' )->name("listaccount");;
 Route::post( '/accounts/{providerid}', 'AccountsController@addaccount');;
+Route::get( '/tt', 'Controller@test');
+Route::get( '/cloudapi', 'CloudapiController@region');
+Route::post( '/cloudapi/instances' , 'CloudapiController@getInstances');
+
+
 
 
 

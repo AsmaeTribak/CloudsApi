@@ -24,6 +24,9 @@
           <li class="nav-item ">
             <a class="nav-link  {{ (request()->is('accounts')) ? 'active' : '' }}" href="{{url('/accounts')}}">Accounts</a>
           </li>
+          <li class="nav-item ">
+            <a class="nav-link  {{ (request()->is('cloudapi')) ? 'active' : '' }}" href="{{url('/cloudapi')}}">Cloudapi</a>
+          </li>
           @endif
           {{-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
