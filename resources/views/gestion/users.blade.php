@@ -84,7 +84,7 @@
                                 </td>
                                 @if (in_array(Auth::user()->role, ['admin']))
                                     <td>
-                                        <a href="{{ url('/users/activate/' . $user->id_user) }}"
+                                        <a href="{{ url('/users/destroy/' . $user->id_user) }}"
                                             class="btn btn-danger btn-sm close">
                                             <i class="bi bi-trash-fill"></i></a>
                                     </td>

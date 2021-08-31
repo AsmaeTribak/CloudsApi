@@ -17,6 +17,8 @@ Route::get( '/users/reset/password/{userid}' , 'UserController@resetUserPassword
 Route::get( '/test' , 'TestEmail@index' );
 Route::get( '/users/desactivate/{userid}' , 'UserController@desactivate');
 Route::get( '/users/activate/{userid}' , 'UserController@activate');
+Route::get(  '/users/destroy/{userid}' , 'UserController@destroy');
+
 Route::post( '/users' , 'UserController@update')->name("updateuser");
 Route::get( '/entities' , 'EntityController@index' );
 Route::post( '/entities' , 'EntityController@store' )->name("addentity");
@@ -32,6 +34,8 @@ Route::post( '/accounts/{providerid}', 'AccountsController@addaccount');;
 Route::get( '/tt', 'Controller@test');
 Route::get( '/cloudapi', 'CloudapiController@region');
 Route::post( '/cloudapi/instances' , 'CloudapiController@getInstances');
+Route::get(  '/accounts/delete/{accountid}' , 'AccountsController@delete');
+
 
 
 

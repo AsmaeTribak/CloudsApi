@@ -100,4 +100,19 @@ class UserController extends Controller
         else
             return redirect()->back()->withFail("something wrong ");
     }
+    public function destroy($id)
+    {
+        $user=User::find($id);
+
+     
+        $delete= $user->delete();
+        
+        
+        return $delete ? 
+            redirect()->back()->with('success','user delete successfuly'):
+            redirect()->back()->withfail('hopelessly');
+
+    }
+
+
 }

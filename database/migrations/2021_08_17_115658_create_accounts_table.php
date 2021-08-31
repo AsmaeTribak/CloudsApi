@@ -19,6 +19,8 @@ class CreateAccountsTable extends Migration
             $table->string('name');
             $table->string('proxy')->nullable();
             $table->unsignedBigInteger('provider_id');
+            $table->softDeletes();
+        
              $table->unsignedBigInteger('sshkey_id')->nullable();
             $table->boolean('is_active')->default(true);
         });

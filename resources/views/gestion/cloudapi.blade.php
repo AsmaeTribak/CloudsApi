@@ -18,7 +18,7 @@
                             aria-label="Example select with button addon">
 
                             @foreach ($accounts as $account)
-                                <option value="{{$accout->id}}" > {{ $account->name }} </option>
+                                <option value="{{$account->id_account}}" > {{ $account->name }} </option>
                             @endforeach
 
                         </select>
@@ -30,8 +30,8 @@
                         <select class="form-select form-select-sm" id="regionSelector" name="region"
                             aria-label="Example select with button addon">
 
-                            @foreach ($regions as $region)
-                                <option> {{ $region }} </option>
+                            @foreach ($regions as $slug => $region)
+                                <option value="{{ $slug }}" > {{ $region }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -42,6 +42,28 @@
 
                 </div>
             </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <table class="table table-success table-striped " id="instancesTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID of instance</th>
+                        <th scope="col">label</th>
+                        <th scope="col">IP</th>
+                        <th scope="col">Region</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+
+            </div>
+
         </div>
 
     </div>
@@ -74,6 +96,20 @@ function getInstances(){
 
     $.post( '/cloudapi/instances' , request , (data) => {
         console.log( data )
+        $.each( data , (k , v) => {
+            $("#instancesTable > tbody").append(
+`
+        <tr>
+                        <th scope="row">${v.id}</th>
+                        <td>${v.label}</td>
+                        <td>${v.main_ip}</td>
+                        <td>${v.region}</td>
+                      </tr>
+                     `
+
+
+            )
+        } )
     } ) 
 }
 

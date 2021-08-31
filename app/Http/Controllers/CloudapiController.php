@@ -40,6 +40,38 @@ class CloudapiController extends Controller
     }
 
     public function getInstances( Request $request ){
-        return $request->all();
+        // return $request->all();
+
+        $accounts =Account::find ($request->account);
+        $region = $request->region;
+
+        // return [$accounts->getAuth()->first_key,$region,$accounts->proxy ]  ;
+        $instance =curl_init();
+
+        curl_setopt_array($instance, array(
+          CURLOPT_URL => 'https://api.vultr.com/v2/instances',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_PROXY =>$accounts->proxy,
+        
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$accounts->getAuth()->first_key
+          ),
+        ));
+        
+        $response = curl_exec($instance);
+        
+        curl_close($instance);
+
+        return json_decode( $response , true )['instances'];
+
+        // return [[$request->all()  ]] ;
+
     }   
+    
 }

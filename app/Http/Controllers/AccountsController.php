@@ -65,7 +65,7 @@ class AccountsController extends Controller
             $is_saved = $account->save();
 
             if( $is_saved ) {
-                $authKey->account_id =  $account->id ;
+                $authKey->account_id =  $account->id_account ;
                 $authKey->save();
             }
             DB::commit();
@@ -74,7 +74,7 @@ class AccountsController extends Controller
                 redirect()->back()->withfail('hopelessly' );
         }catch(\Exception $e){       
             DB::rollback();
-            return redirect()->back()->withfail("hopelessly , Transaction error " );
+            return redirect()->back()->withfail("hopelessly , Transaction error "  );
         }
 
 
@@ -125,6 +125,8 @@ class AccountsController extends Controller
 
         return view('gestion.accounts', ['accounts' => $accountss]);
     }
+    
+    
     public function listes(){
         $providers= Provider::all();
 
@@ -134,5 +136,15 @@ class AccountsController extends Controller
 
 
     }
+    public function delete($accountsid){
+        $account= Account::find($accountsid);
+        $delete= $account->delete();
+        
+        
+        return $delete ? 
+            redirect()->back()->with('success','account delete successfuly'):
+            redirect()->back()->withfail('hopelessly');
+         }
+
 
 }

@@ -5,9 +5,13 @@ namespace App\Models;
 use App\Models\Provider;
 use App\SSHkey;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
+    // use SoftDeletes;
+    protected $primaryKey = "id_account";
+
     public function provider()
     {
         return $this->belongsTo( Provider::class , 'provider_id');
@@ -15,7 +19,7 @@ class Account extends Model
     }
     public function sshkey()
     {
-        return $this->hasOne( SSHkey::class , 'sshkey_id');
+        return $this->belongsTo( SSHkey::class , 'sshkey_id');
 
     }
     public function authkey()
