@@ -96,20 +96,18 @@ function getInstances(){
 
     $.post( '/cloudapi/instances' , request , (data) => {
         console.log( data )
-        $.each( data , (k , v) => {
-            $("#instancesTable > tbody").append(
-`
-        <tr>
-                        <th scope="row">${v.id}</th>
-                        <td>${v.label}</td>
-                        <td>${v.main_ip}</td>
-                        <td>${v.region}</td>
-                      </tr>
-                     `
-
-
-            )
-        } )
+//         $.each( data , (k , v) => {
+//             $("#instancesTable > tbody").append(
+// `
+//         <tr>
+//                         <th scope="row">${v.id}</th>
+//                         <td>${v.label}</td>
+//                         <td>${v.main_ip}</td>
+//                         <td>${v.region}</td>
+//                       </tr>
+//                      `
+//             )
+//         } )
     } ) 
 }
 
