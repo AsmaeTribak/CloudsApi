@@ -28,13 +28,18 @@ Route::get(  '/providers' , 'ProviderController@index' );
 Route::post( '/providers/attach/{providerid}' , 'ProviderController@attach' );
 Route::post( '/providers' , 'ProviderController@store' )->name("addprovider");
 Route::get(  '/providers/{providerid}/{action}/{entityid}' , 'ProviderController@edit' );
+
+
 Route::get(  '/accounts' , 'AccountsController@listes');
 Route::get(  '/accounts/{providerid}' , 'AccountsController@index' )->name("listaccount");;
-Route::post( '/accounts/{providerid}', 'AccountsController@addaccount');;
+Route::post( '/accounts/{providerid}', 'AccountsController@addaccount');
+
 Route::get( '/tt', 'Controller@test');
 Route::get( '/cloudapi', 'CloudapiController@region');
 Route::post( '/cloudapi/instances' , 'CloudapiController@getInstances');
 Route::get(  '/accounts/delete/{accountid}' , 'AccountsController@delete');
+Route::post( '/cloudapi' , 'CloudapiController@addinstance' )->name("addinstance");
+
 
 
 

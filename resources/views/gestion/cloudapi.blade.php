@@ -39,6 +39,13 @@
                     <div class="col-3 pt-4 mt-2">
                        <button class="btn btn-primary btn-sm" onclick="getInstances()">Get Servers</button>
                     </div>
+                    <div class="col-3 pt-4 mt-2">
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addInstances()">
+                        add instances
+                      </button>
+                    </div>
+
 
                 </div>
             </div>
@@ -67,6 +74,60 @@
         </div>
 
     </div>
+    <form action="{{ route('addinstance')}}" method="Post">
+        @csrf
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Instance</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <label for="formGroupExampleInput" class="form-label">Accounts</label>
+                    <select class="form-select form-select-sm" id="accountSelector" name="account"
+                        aria-label="Example select with button addon">
+
+                        @foreach ($accounts as $account)
+                            <option value="{{$account->id_account}}" > {{ $account->name }} </option>
+                        @endforeach
+
+                    </select>
+                </div>
+                <div class="col-4">
+
+                    <label for="formGroupExampleInput" class="form-label">Regions</label>
+                    <select class="form-select form-select-sm" id="regionSelector" name="region"
+                        aria-label="Example select with button addon">
+
+                        @foreach ($regions as $slug => $region)
+                            <option value="{{ $slug }}" > {{ $region }} </option>
+                        @endforeach
+                    </select>
+                    <div class="modal-body">
+                    <label for='name_of_instance'class="form-label">Name</label>
+                   <input type='text'class="form-control form-control-sm " name ='instance_name' placeholder="instance name ">
+                   <label for='number_of_instance'class="form-label">number</label>
+                   <input type='text'class="form-control form-control-sm " name ='instance_number' placeholder="instance number ">
+                   <label for='domaine_of_instance'class="form-label">domain</label>
+                   <input type='text'class="form-control form-control-sm " name ='instance_domain' placeholder="instance domain ">
+       
+                    </div>
+
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary btn-sm"> Save </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+
+
 
 
 @endSection
@@ -96,21 +157,20 @@ function getInstances(){
 
     $.post( '/cloudapi/instances' , request , (data) => {
         console.log( data )
-//         $.each( data , (k , v) => {
-//             $("#instancesTable > tbody").append(
-// `
-//         <tr>
-//                         <th scope="row">${v.id}</th>
-//                         <td>${v.label}</td>
-//                         <td>${v.main_ip}</td>
-//                         <td>${v.region}</td>
-//                       </tr>
-//                      `
-//             )
-//         } )
+        $.each( data , (k , v) => {
+            $("#instancesTable > tbody").append(
+`
+        <tr>
+                        <th scope="row">${v.id}</th>
+                        <td>${v.name}</td>
+                        <td>${v.mainIp}</td>
+                        <td>${v.region}</td>
+                      </tr>
+                     `
+
+
+            )
+        } )
     } ) 
-}
-
-</script>
-
+    
 @endSection

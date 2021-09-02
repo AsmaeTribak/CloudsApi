@@ -15,7 +15,8 @@ class Controller extends BaseController
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://api.vultr.com/v2/instances',
+      CURLOPT_URL => 'https://api.vultr.com/v2/plans',
+      // CURLOPT_URL => 'https://api.vultr.com/v2/instances',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -33,6 +34,6 @@ class Controller extends BaseController
     $response = curl_exec($curl);
 
     curl_close($curl);
-    return json_decode($response, true)["instances"];
+    return json_decode($response, true);
   }
 }

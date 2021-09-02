@@ -4,9 +4,9 @@ namespace App\Services\Interfaces;
 
 interface ICloudManager {
 
-    public function getInstances();
+    public function getInstances($region);
 
-    public function addInstances();
+    public function addInstances($region ,$domain,$name,$number);
 
     public function RemoveInstances();
 
