@@ -3,6 +3,7 @@
 namespace App\Services\CloudsApi;
 
 use App\Services\UniqueResponse;
+use App\Models\Instance;
 use Exception;
 
 class VultrCloudApi extends AbstractProviderCloud
@@ -14,14 +15,31 @@ class VultrCloudApi extends AbstractProviderCloud
         parent::__construct($account);
     }
     public function getInstances($region)
-    {
-        $instancesFromApi = $this->getFromApi();
+    {   
+        try{
+
+            $instancesFromApi = $this->getFromApi();
+
+        }catch( \Exception $e ){
+            return [ 
+                "completed" => false ,
+                "data" => null ,
+                "error" => $e->getMessage() 
+            ];
+        }
+        
 
         $filterdByRegion = $this->filterByRegion($instancesFromApi, $region);
 
         $instances = $this->generateResponse($filterdByRegion);
 
-        return  $instances;
+        return  [ 
+            "completed" => true ,
+            "data" => $instances ,
+            "error" => null 
+        ];
+
+        
     }
 
     public function addInstances($region, $domain, $name, $number)
@@ -36,18 +54,22 @@ class VultrCloudApi extends AbstractProviderCloud
                 $currentInstance = $this->createInstance($name, $region);
 
                 // add instance to instance model 
-                
-
+                $instance=new Instance();
+                $instance->instance_id=$currentInstance["id"];
+                $instance->instance_name=$currentInstance['label'];
+                $instance->domain=$domain;
+                $instance->save();
 
                 $currentInstance = [ 
                     "completed" => true ,
                     "data" => $currentInstance ,
                     "error" => null 
                 ];
+
             }catch(\Exception $e){
                 $currentInstance = [ 
                     "completed" => false ,
-                    "data" => null ,
+                    "data" => [] ,
                     "error" => $e->getMessage() 
                 ];
             }
@@ -95,18 +117,20 @@ class VultrCloudApi extends AbstractProviderCloud
             ),
         ));
 
-        $response = curl_exec($instance);
+        $curl_response = curl_exec($instance);
 
         curl_close($instance);
 
-        return json_decode($response, true)['instances'];
+        $response = $response = json_decode( $curl_response , true) ;
+        if ( !isset( $response["instances"] ) ) 
+            throw new Exception( "error in loading of instances [ $curl_response ]" );
+        
+        return $response['instances'];
     }
 
     private function createInstance($name, $region)
     {
-        // return [ $this->account->getAuth()->first_key , $this->account->proxy ] ;
-
-
+        
         $body = [
             "region" => $region ,
             "plan" => "vc2-1c-1gb",
@@ -141,8 +165,10 @@ class VultrCloudApi extends AbstractProviderCloud
         curl_close($curl);
         $response = json_decode($curl_response, true);
 
-        if( isset( $response["error"] ) ) throw new Exception( "error creating instance $name [ $curl_response ]" );
-        return $response;
+        if( isset( $response["error"] ) ) 
+            throw new Exception( "error creating instance $name [ $curl_response ]" );
+        
+        return $response["instance"];
 
     }
 
@@ -166,6 +192,13 @@ class VultrCloudApi extends AbstractProviderCloud
             $response->name = $instance['label'];
             $response->region = $instance['region'];
             $response->mainIp = $instance['main_ip'];
+            // get record instance from database
+          $record = Instance::where('instance_id' ,$instance["id"])->first();
+
+            if( $record != null )
+            $response->domaine = $record->domain; 
+
+
             array_push($array, $response);
         }
         return $array;

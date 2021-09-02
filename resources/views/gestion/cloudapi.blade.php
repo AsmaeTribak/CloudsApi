@@ -59,9 +59,12 @@
                     <thead>
                       <tr>
                         <th scope="col">ID of instance</th>
-                        <th scope="col">label</th>
+                        <th scope="col">Server name</th>
                         <th scope="col">IP</th>
                         <th scope="col">Region</th>
+                        <th scope="col">Domain</th>
+                        <th scope="col">Actions</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -135,8 +138,10 @@
 
 @section('js')
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+@php echo "<script> const regions = ".  json_encode($regions)."</script>"; @endphp
 <script>
 
 $.ajaxSetup({
@@ -155,22 +160,28 @@ function getInstances(){
     
     
 
-    $.post( '/cloudapi/instances' , request , (data) => {
-        console.log( data )
-        $.each( data , (k , v) => {
+    $.post( '/cloudapi/instances' , request , (response) => {
+        console.log( response )
+        $("#instancesTable > tbody").empty();
+        $.each( response.data , (k , instance) => {
             $("#instancesTable > tbody").append(
 `
         <tr>
-                        <th scope="row">${v.id}</th>
-                        <td>${v.name}</td>
-                        <td>${v.mainIp}</td>
-                        <td>${v.region}</td>
+                        <th scope="row">aa</th>
+                        <td>${instance.name}</td>
+                        <td>${instance.mainIp}</td>
+                        <td>${ regions[instance.region] }</td>
+                        <td>${instance.domaine}</td>
+                        <td> install / delete</td>
+
                       </tr>
                      `
 
 
             )
         } )
-    } ) 
+    } ) ;
+}
+</script>
     
 @endSection
