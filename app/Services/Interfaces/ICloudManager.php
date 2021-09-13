@@ -8,7 +8,7 @@ interface ICloudManager {
 
     public function addInstances($region ,$domain,$name,$number);
 
-    public function RemoveInstances();
+    public function RemoveInstances($instanceid);
 
 
 }

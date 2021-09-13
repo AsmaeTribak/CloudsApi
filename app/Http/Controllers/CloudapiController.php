@@ -66,4 +66,21 @@ class CloudapiController extends Controller
 
     return $instancesAdded;
   }
+  
+  
+  public  function RemoveInstances(Request $request){
+    $account = Account::find($request->account_id);
+    $instanceid = $request->id;
+    $test = new CloudManager($account);
+    $removeinstance=$test->RemoveInstances($instanceid);
+    return $removeinstance;
+    }
+    public function installInstance(request $request)
+{
+ return $request->all();
+
+
+
+
+}
 }

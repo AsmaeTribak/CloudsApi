@@ -39,6 +39,9 @@ Route::get( '/cloudapi', 'CloudapiController@region');
 Route::post( '/cloudapi/instances' , 'CloudapiController@getInstances');
 Route::get(  '/accounts/delete/{accountid}' , 'AccountsController@delete');
 Route::post( '/cloudapi' , 'CloudapiController@addinstance' )->name("addinstance");
+Route::post( '/cloudapi/instances/delete' , 'CloudapiController@RemoveInstances');
+Route::post( '/cloudapi/instances/install' , 'CloudapiController@installInstance');
+
 
 
 

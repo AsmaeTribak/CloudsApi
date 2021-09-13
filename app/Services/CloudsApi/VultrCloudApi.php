@@ -63,7 +63,7 @@ class VultrCloudApi extends AbstractProviderCloud
                 $currentInstance = [ 
                     "completed" => true ,
                     "data" => $currentInstance ,
-                    "error" => null 
+                    "error" => null     
                 ];
 
             }catch(\Exception $e){
@@ -80,16 +80,34 @@ class VultrCloudApi extends AbstractProviderCloud
         return $createdInstances;
     }
 
-    public function RemoveInstances()
-    {
+    public function RemoveInstances($instanceid){
+        
+        try{
+            $removed = $this->deleteInstanceApi( $instanceid );
+            $this->removeInstallation();
+            return [
+                "completed" => true ,
+                "data" => $removed ,
+                "error" => null 
+            ];
+        }catch(\Exception $e){
+            return [ 
+                "completed" => false ,
+                "data" => [] ,
+                "error" => $e->getMessage() 
+            ];
+        }
     }
+    
 
     public function installInstance()
     {
+        return ["asma2 xdida "];
     }
 
     public function removeInstallation()
     {
+        // TODO: remove installation from other application by api
     }
 
 
@@ -172,6 +190,38 @@ class VultrCloudApi extends AbstractProviderCloud
 
     }
 
+    private function deleteInstanceApi($instanceid){
+        $instance = curl_init();
+
+        curl_setopt_array($instance, array(
+            CURLOPT_URL => "https://api.vultr.com/v2/instances/$instanceid",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_PROXY => $this->account->proxy,
+
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $this->account->getAuth()->first_key
+            ),
+        ));
+
+        $curl_response = curl_exec($instance);
+
+        curl_close($instance);
+
+        $response = $response = json_decode( $curl_response , true) ;
+        if ( isset( $response["error"] ) ) 
+            throw new Exception( "error in deleting instance [ $curl_response ]" );
+        
+        return $response;
+
+
+    }
+
     private function filterByRegion($instances, $region)
     {
 
@@ -192,6 +242,7 @@ class VultrCloudApi extends AbstractProviderCloud
             $response->name = $instance['label'];
             $response->region = $instance['region'];
             $response->mainIp = $instance['main_ip'];
+            $response->accountId = $this->account->id_account;
             // get record instance from database
           $record = Instance::where('instance_id' ,$instance["id"])->first();
 

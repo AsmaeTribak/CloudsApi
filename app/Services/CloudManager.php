@@ -37,4 +37,7 @@ class CloudManager
 
         return $this->cloudProvider->addInstances($region, $domain, $name, $number);
     }
+    function RemoveInstances (string $instanceid){
+        return $this->cloudProvider->RemoveInstances($instanceid);
+    }
 }

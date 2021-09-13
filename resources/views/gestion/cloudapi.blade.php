@@ -163,17 +163,35 @@ function getInstances(){
     $.post( '/cloudapi/instances' , request , (response) => {
         console.log( response )
         $("#instancesTable > tbody").empty();
-        $.each( response.data , (k , instance) => {
+        $.each( response.data , (k , instance) => { 
+
+            const btn_delete=`<button 
+                                    class="btn btn-danger btn-sm" 
+                                    onclick="deleteInstance(this)" 
+                                    data-id="${instance.id}"
+                                    data-account="${instance.accountId}"> 
+                                  <i class="bi bi-trash-fill"></i>
+                              </button>`
+            const btn_install=`<button 
+                                    class="btn btn-primary btn-sm" 
+                                    onclick="installInstance(this)"
+                                    data-id="${instance.id}"
+                                    data-mainip="${instance.mainIp}"
+                                    data-name="${instance.name}"
+                                    data-domain="${instance.domaine == null ? '':instance.domaine}">
+                                  <i class="bi bi-save-fill"></i> 
+                                </button>`
+
             $("#instancesTable > tbody").append(
 `
         <tr>
                         <th scope="row">aa</th>
                         <td>${instance.name}</td>
                         <td>${instance.mainIp}</td>
-                        <td>${ regions[instance.region] }</td>
+                        <td>${regions[instance.region]}</td>
                         <td>${instance.domaine}</td>
-                        <td> install / delete</td>
-
+                        <td> ${btn_install} ${btn_delete}</td>
+                    
                       </tr>
                      `
 
@@ -181,6 +199,44 @@ function getInstances(){
             )
         } )
     } ) ;
+}
+
+function deleteInstance(currentElement){
+    // console.log(currentElement)
+
+    // console.log(currentElement.dataset)
+    // const instanceId = currentElement.dataset.id;
+
+    let request = {
+        account_id : currentElement.dataset.account ,
+        id :  currentElement.dataset.id
+    }
+
+    console.log( request )
+
+    $.post( '/cloudapi/instances/delete' , request , (response) => {
+            console.log(response)
+    } );
+
+}
+function installInstance(currentElement){
+    
+    let request = {
+        id :  currentElement.dataset.id,
+        mainip : currentElement.dataset.mainIp,
+        name : currentElement.dataset.name,
+        domain : currentElement.dataset.domaine
+
+    }
+
+    console.log( request )
+
+    $.post( '/cloudapi/instances/install' , request , (response) => {
+            console.log(response)
+    } );
+
+
+   
 }
 </script>
     
