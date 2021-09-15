@@ -100,7 +100,7 @@ class VultrCloudApi extends AbstractProviderCloud
     }
     
 
-    public function installInstance()
+    public function installInstance($instanceid,$mainip,$name,$domaine)
     {
         return ["asma2 xdida "];
     }

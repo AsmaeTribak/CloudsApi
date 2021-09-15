@@ -178,6 +178,7 @@ function getInstances(){
                                     data-id="${instance.id}"
                                     data-mainip="${instance.mainIp}"
                                     data-name="${instance.name}"
+                                    data-account="${instance.accountId}"
                                     data-domain="${instance.domaine == null ? '':instance.domaine}">
                                   <i class="bi bi-save-fill"></i> 
                                 </button>`
@@ -222,10 +223,11 @@ function deleteInstance(currentElement){
 function installInstance(currentElement){
     
     let request = {
+        account_id : currentElement.dataset.account ,
         id :  currentElement.dataset.id,
-        mainip : currentElement.dataset.mainIp,
+        mainip : currentElement.dataset.mainip,
         name : currentElement.dataset.name,
-        domain : currentElement.dataset.domaine
+        domain : currentElement.dataset.domain
 
     }
 

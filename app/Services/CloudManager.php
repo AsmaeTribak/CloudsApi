@@ -40,4 +40,10 @@ class CloudManager
     function RemoveInstances (string $instanceid){
         return $this->cloudProvider->RemoveInstances($instanceid);
     }
+    function installInstance( $instanceid, $mainip, $name, $domaine){
+
+        return $this->cloudProvider->installInstance($instanceid,$mainip,$name,$domaine);
+
+    }
+
 }
