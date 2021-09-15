@@ -12,5 +12,6 @@ class UniqueResponse
     public $domaine;
     public $secondaryIps = [];
     public $accountId;
+    public $is_installed;
     
 }

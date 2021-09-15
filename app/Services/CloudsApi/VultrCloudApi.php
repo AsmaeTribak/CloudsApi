@@ -100,9 +100,15 @@ class VultrCloudApi extends AbstractProviderCloud
     }
     
 
-    public function installInstance($instanceid,$mainip,$name,$domaine)
+    public function installInstance( $instanceid ,$mainip,$name,$domaine)
     {
-        return ["asma2 xdida "];
+        $installation_response = $this->lanchInstrallation($mainip,$name,$domaine);
+        if( $installation_response["code"] == 200 ){
+            $this->makeItInstalled($instanceid , $mainip,$name,$domaine);
+        }
+        return $installation_response;
+        
+        // return ["asma2 xdida "];
     }
 
     public function removeInstallation()
@@ -110,8 +116,41 @@ class VultrCloudApi extends AbstractProviderCloud
         // TODO: remove installation from other application by api
     }
 
+    private function lanchInstrallation( $mainip,$name,$domaine ){
+        return $this->generateMockInstallationResponse();
+    }
 
+    private function generateMockInstallationResponse(){
+        $responses = [
+            [ "code" => 200 , "message" => "installation has been lanched" ],
+            [ "code" => 300 , "message" => "error in ssh connection" ],
+        ];
 
+        return $responses[ array_rand($responses) ];
+
+    }
+
+    private function makeItInstalled( $instanceid , $mainip,$name,$domaine ){
+
+        $instance = Instance::where( 'instance_id' , $instanceid )->first();
+
+        if( $instance != null ){
+            // exist
+            $instance->is_installed = true;
+
+        }else {
+            // not exist
+            $instance = new Instance();
+            $instance->instance_id = $instanceid; 
+            $instance->instance_name = $name;
+            $instance->main_ip= $mainip;
+            $instance->domain = $domaine;
+            $instance->is_installed = true;
+
+        }
+
+        $instance->save();
+    }   
     // -----------------------------
 
     private function getFromApi()
@@ -246,8 +285,10 @@ class VultrCloudApi extends AbstractProviderCloud
             // get record instance from database
           $record = Instance::where('instance_id' ,$instance["id"])->first();
 
-            if( $record != null )
-            $response->domaine = $record->domain; 
+            if( $record != null ){
+                $response->domaine = $record->domain; 
+                $response->is_installed = $record->is_installed;
+            }
 
 
             array_push($array, $response);
