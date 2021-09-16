@@ -77,7 +77,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <label for='name_of_entity' class="form-label"> name</label>
+        <label for='name_of_entity' class="form-label"> Name</label>
         <input type='text'  class="form-control form-control-sm" name ="name" placeholder="entity name">
         <label for='reference_of_entity'class="form-label">Reference</label>
         <input type='text'class="form-control form-control-sm " name ='ref_entity' placeholder="reference ">
@@ -99,7 +99,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Entity</h5>
+          <h5 class="modal-title" id="exampleModalLabel"> Update Entity</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
@@ -108,7 +108,7 @@
         <div class="modal-body">
 
         <input type='hidden'class="form-control form-control-sm " id="entity_id_input" name ='id_entity'>
-        <label for='entity_name_input' class="form-label"> name</label>
+        <label for='entity_name_input' class="form-label">Name</label>
         <input type='text'  class="form-control form-control-sm" id="entity_name_input" name ="name" placeholder="entity name">
         <label for='entity_ref_input'class="form-label">Reference</label>
         <input type='text'class="form-control form-control-sm " id="entity_ref_input" name ='ref_entity' placeholder="entity reference ">

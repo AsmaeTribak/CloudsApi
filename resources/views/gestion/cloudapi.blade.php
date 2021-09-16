@@ -133,7 +133,7 @@
                                     placeholder="instance name ">
                             </div>
                             <div class="col-6">
-                                <label for='number_of_instance' class="form-label">number</label>
+                                <label for='number_of_instance' class="form-label">Number</label>
                                 <input type='text' class="form-control form-control-sm " name='instance_number'
                                     placeholder="instance number ">
                             </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label for='domaine_of_instance' class="form-label">domain</label>
+                                <label for='domaine_of_instance' class="form-label">Domain</label>
                                 <input type='text' class="form-control form-control-sm " name='instance_domain'
                                     placeholder="instance domain ">
                             </div>
@@ -169,11 +169,11 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @php 
+    @php
     echo "
-    <script>
-        const regions = ".  json_encode($regions)."
-    </script>"; 
+        <script>
+            const regions = ".  json_encode($regions)."
+        </script>";
     @endphp
     <script>
         $.ajaxSetup({
@@ -243,17 +243,19 @@
         }
 
         function deleteInstance(currentElement) {
-            // console.log(currentElement)
 
-            // console.log(currentElement.dataset)
-            // const instanceId = currentElement.dataset.id;
+            deleteInstance( currentElement.dataset.account , currentElement.dataset.id );
+            
+        }
 
+        function deleteInstance( account_id , instance_id ){
+            
             let request = {
-                account_id: currentElement.dataset.account,
-                id: currentElement.dataset.id
+                account_id: account_id,
+                id: instance_id
             }
 
-            console.log(request)
+            // console.log(request)
 
             $.post('/cloudapi/instances/delete', request, (response) => {
                 console.log(response)
@@ -261,23 +263,24 @@
 
         }
 
+
         function installInstance(currentElement) {
 
-            sendInstallation( 
-                currentElement.dataset.account ,
+            sendInstallation(
+                currentElement.dataset.account,
                 currentElement.dataset.id,
-                currentElement.dataset.mainip ,
-                currentElement.dataset.name ,
-                currentElement.dataset.domain );
+                currentElement.dataset.mainip,
+                currentElement.dataset.name,
+                currentElement.dataset.domain);
 
         }
 
-        function sendInstallation( account_id , instance_id , mainip , name , domain ){
+        function sendInstallation(account_id, instance_id, mainip, name, domain) {
             const request = {
-                account_id: account_id ,
+                account_id: account_id,
                 id: instance_id,
                 mainip: mainip,
-                name:name,
+                name: name,
                 domain: domain
             }
 
@@ -315,20 +318,17 @@
             while (i-- > 0) {
 
                 let instance = instances[i].split("_")
-                
+
                 if (instance[5] == "0") {
-                    
-                   
+
                     const instance_id = instance[0];
-                    const mainip=instance[1];
-                    const name=instance[2];
-                    const account_id=instance[3];
-                    const domain=instance[4];
+                    const mainip = instance[1];
+                    const name = instance[2];
+                    const account_id = instance[3];
+                    const domain = instance[4];
 
-
-                    sendInstallation( account_id , instance_id , mainip , name , domain )
+                    sendInstallation(account_id, instance_id, mainip, name, domain)
                 }
-               
 
                 await timeout(1000)
             }
@@ -338,29 +338,30 @@
 
         async function deleteMultiple() {
 
-let form = $("#multiple_instance").serializeFormJSON();
+            let form = $("#multiple_instance").serializeFormJSON();
 
-let instances = []
+            let instances = []
 
-if (typeof form.instances == "string") instances = [form.instances]
-else if (form.instances == undefined) instances = []
-else instances = form.instances
+            if (typeof form.instances == "string") instances = [form.instances]
+            else if (form.instances == undefined) instances = []
+            else instances = form.instances
 
-let i = instances.length
+            let i = instances.length
 
-while (i-- > 0) {
+            while (i-- > 0) {
 
-    let instance = instances[i].split("_")
-    
-    
-    console.log(instance)
-    
-    //   send_check_ip_servers( instance[0] , instance[1] ) 
+                let instance = instances[i].split("_")
 
-    await timeout(1000)
-}
+                const instance_id = instance[0];
+                const account_id = instance[3];
 
-}
+                // console.log(instance)
+                deleteInstance( account_id , instance_id );
+
+                await timeout(1000)
+            }
+
+        }
 
         (function($) {
             $.fn.serializeFormJSON = function() {
