@@ -5,8 +5,6 @@
 
     <div class="col-md-10 offset-1">
 
-
-
         <div class="row mt-5">
 
             <div class="col-6">
@@ -47,8 +45,7 @@
 
             <div class="col-6 mt-2 ">
 
-                <button type="button" class="btn btn-primary btn-sm mt-4 float-end" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" onclick="addInstances()">
+                <button type="button" class="btn btn-primary btn-sm mt-4 float-end" onclick="addInstances()">
                     add instances
                 </button>
             </div>
@@ -89,8 +86,9 @@
         </div>
 
     </div>
-    <form action="{{ route('addinstance') }}" method="Post">
-        @csrf
+    {{-- <form action="{{ route('addinstance') }}" method="Post"> --}}
+        <form id="form_add">
+        {{-- @csrf --}}
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -167,8 +165,8 @@
 
 @section('js')
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" ></script>
     @php
     echo "
         <script>
@@ -182,6 +180,27 @@
             }
         });
 
+        const add_instance_modal = new bootstrap.Modal(document.getElementById('exampleModal'), { keyboard: false })
+
+        function addInstances(){
+            add_instance_modal.show();
+        }
+
+
+        $("#form_add").submit( (e) => {
+            
+            e.preventDefault();
+            
+            const request =  $("#form_add").serializeFormJSON();
+
+            $.post('/cloudapi' , request , (data) => {
+                console.log( data );
+                add_instance_modal.hide();
+                getInstances();
+            });
+
+
+        });
 
         function getInstances() {
 
@@ -189,8 +208,6 @@
                 account: document.querySelector("#accountSelector").value,
                 region: document.querySelector("#regionSelector").value
             }
-
-
 
             $.post('/cloudapi/instances', request, (response) => {
                 console.log(response)
@@ -235,28 +252,25 @@
                     
                       </tr>
                      `
-
-
                     )
                 })
             });
         }
 
         function deleteInstance(currentElement) {
-
-            deleteInstance( currentElement.dataset.account , currentElement.dataset.id );
             
+            deleteInstanceRequest( currentElement.dataset.account , currentElement.dataset.id );
+            getInstances();
         }
 
-        function deleteInstance( account_id , instance_id ){
+        function deleteInstanceRequest( account_id , instance_id ){
             
             let request = {
                 account_id: account_id,
                 id: instance_id
             }
-
-            // console.log(request)
-
+            console.log(  request)
+            
             $.post('/cloudapi/instances/delete', request, (response) => {
                 console.log(response)
             });
@@ -272,7 +286,7 @@
                 currentElement.dataset.mainip,
                 currentElement.dataset.name,
                 currentElement.dataset.domain);
-
+                getInstances();
         }
 
         function sendInstallation(account_id, instance_id, mainip, name, domain) {
@@ -328,10 +342,12 @@
                     const domain = instance[4];
 
                     sendInstallation(account_id, instance_id, mainip, name, domain)
+                    
                 }
 
                 await timeout(1000)
             }
+            getInstances();
 
         }
 
@@ -356,11 +372,11 @@
                 const account_id = instance[3];
 
                 // console.log(instance)
-                deleteInstance( account_id , instance_id );
+                deleteInstanceRequest( account_id , instance_id );
 
                 await timeout(1000)
             }
-
+            getInstances();
         }
 
         (function($) {
